@@ -86,8 +86,8 @@ const ProductList = () => {
                 <FilterText>Sort Products:</FilterText>
                 <Select onChange={(e) => setSort(e.target.value)}>
                     <Option value="newest">Newest</Option>
-                    <Option value="ascc">Price (asc)</Option>
-                    <Option value="desc">Price (desc)</Option>
+                    <Option value="asc">lower Price</Option>
+                    <Option value="desc">Higher Price</Option>
                 </Select>
             </Filter>
         </FilterContainer>
