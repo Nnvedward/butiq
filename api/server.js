@@ -1,10 +1,13 @@
 const express = require('express')
+const cors = require('cors')
 require('express-async-errors')
 
 const { PORT } = process.env
 const bodyParser = require("body-parser")
 
 const app = express()
+
+app.use(cors())
 
 // Parse JSON data
 app.use(express.json())
