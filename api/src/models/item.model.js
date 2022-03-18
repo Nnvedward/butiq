@@ -14,13 +14,17 @@ const itemSchema = new mongoose.Schema({
         required: true
     },
     size: {
-        type: String
+        type: Array
     },
     color: {
-        type: String
+        type: Array
     },
     price: {
         type: String
+    },
+    inStock: {
+        type: Boolean,
+        default: true
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +36,8 @@ const itemSchema = new mongoose.Schema({
         required: true,
         ref: 'Manufacturer'
     }
+}, {
+    timestamps: true
 })
 
 const Item = mongoose.model('Item', itemSchema)

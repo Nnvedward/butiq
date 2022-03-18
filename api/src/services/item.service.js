@@ -59,8 +59,23 @@ class ItemService {
     }
 
     // Get All Items
-    async getAllItems() {
-        const items = await Item.find()
+    async getAllItems(query) {
+
+        let items
+
+        if (query.new) {
+            items = await Item.find().sort({ createdAt: -1 }).limit(1)
+        } else if (query.category) {
+            // data = await Item.find().populate('category')
+            items = await Item.find({
+                category: {
+                    $in: [query.category]
+                }
+            })
+        } else {
+            items = await Item.find()
+        }
+         
         if(!items) throw new CustomError('No item found!', 404)
 
         return items

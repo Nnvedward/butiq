@@ -18,7 +18,7 @@ class ItemController {
     }
 
     async getAllItems(req, res) {
-        const result = await ItemServ.getAllItems()
+        const result = await ItemServ.getAllItems(req.query)
         res.status(200).send(response('Item datas!', result))
     }
 
