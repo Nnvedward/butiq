@@ -6,6 +6,9 @@ import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import Newsletter from "../components/Newsletter"
 import { mobile } from "../responsive"
+import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from "react"
+import { publicRequest } from "../requestMethods"
 
 const Container = styled.div``
 
@@ -117,34 +120,45 @@ const Button = styled.button`
 `
 
 const Product = () => {
+    const location = useLocation()
+    const id = location.pathname.split("/")[2]
+
+    const [product, setProduct] = useState({})
+
+    useEffect(() => {
+        const getProduct = async () => {
+            try{
+                const res = await publicRequest.get('/item/find/' + id)
+                setProduct(res.data.data)
+            }catch(e) {}
+        }
+        getProduct()
+    }, [id])
   return (
     <Container>
         <Navbar />
         <Announcement />
         <Wrapper>
             <ImgContainer>
-                <Image src="https://i.ibb.co/f2fGSr2/IMG-2303.jpg"/>
+                <Image src={product.image}/>
             </ImgContainer>
             <InfoContainer>
-                <Title>Gucci T-shirt</Title>
-                <Description>There are many variations of Lorem Ipsum available, but the majority have suffered alternation in some fprm, by injection humor, or randomised words which don't look even slightly believable</Description>
-                <Price>$ 20</Price>
+                <Title>{product.title}</Title>
+                <Description>{product.description}</Description>
+                <Price>$ {product.price}</Price>
                 <FilterContainer>
                     <Filter>
                         <FilterTitle>Color</FilterTitle>
-                        <FilterColor color="black"/>
-                        <FilterColor color="darkblue"/>
-                        <FilterColor color="gray"/>
+                        {product.color?.map((color) => (
+                            <FilterColor color={color} key={color}/>
+                        ))}
                     </Filter>
                     <Filter>
                         <FilterTitle>Size</FilterTitle>
                         <FilterSize>
-                            <FilterSizeOption>XS</FilterSizeOption>
-                            <FilterSizeOption>S</FilterSizeOption>
-                            <FilterSizeOption>M</FilterSizeOption>
-                            <FilterSizeOption>L</FilterSizeOption>
-                            <FilterSizeOption>XL</FilterSizeOption>
-                            <FilterSizeOption>XXL</FilterSizeOption>
+                        {product.size?.map((size) => (
+                            <FilterSizeOption key={size}>{size}</FilterSizeOption>
+                        ))}
                         </FilterSize>
                     </Filter>
                 </FilterContainer>

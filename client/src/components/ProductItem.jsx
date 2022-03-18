@@ -1,5 +1,6 @@
 import { faCartShopping, faHeart, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link } from "react-router-dom";
 import styled from "styled-components"
 
 const Info = styled.div`
@@ -53,22 +54,24 @@ const Icon = styled.div`
 `
 
 const ProductItem = ({ product }) => {
-  return (
-    <Container>
-        <Image src={product.image}/>
-        <Info>
-            <Icon>
-                <FontAwesomeIcon icon={faCartShopping} />
-            </Icon>
-            <Icon>
-                <FontAwesomeIcon icon={faSearch} />
-            </Icon>
-            <Icon>
-                <FontAwesomeIcon icon={faHeart} />
-            </Icon>
-        </Info>
-    </Container>
-  )
+    return (
+        <Container>
+            <Image src={product.image} />
+            <Info>
+                <Icon>
+                    <FontAwesomeIcon icon={faCartShopping} />
+                </Icon>
+                <Link to={`/product/${product._id}`}>
+                    <Icon>
+                        <FontAwesomeIcon icon={faSearch} />
+                    </Icon>
+                </Link>
+                <Icon>
+                    <FontAwesomeIcon icon={faHeart} />
+                </Icon>
+            </Info>
+        </Container>
+    )
 }
 
 export default ProductItem
