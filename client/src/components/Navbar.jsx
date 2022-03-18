@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { mobile } from '../responsive'
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 
 const Container = styled.div`
@@ -63,12 +64,14 @@ const CartIcon = styled.span`
 
 
 const Navbar = () => {
+    const quantity = useSelector(state => state.cart.quantity)
+    console.log(quantity)
     return (
         <Container>
             <Wrapper>
                 <Left>
                     <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-                        <Logo>PRIME.</Logo>
+                        <Logo>BUTIQ.</Logo>
                     </Link>
                 </Left>
                 <Right>
@@ -81,7 +84,7 @@ const Navbar = () => {
                     <Link style={{ textDecoration: "none", color: "inherit" }} to="/cart">
                         <MenuItem>
                             <FontAwesomeIcon icon={faCartShopping} />
-                            <CartIcon>2</CartIcon>
+                            <CartIcon>{quantity}</CartIcon>
                         </MenuItem>
                     </Link>
                 </Right>

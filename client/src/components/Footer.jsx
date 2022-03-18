@@ -1,12 +1,12 @@
 import {  faEnvelope, faLocationDot, faPhone } from "@fortawesome/free-solid-svg-icons"
 import { faFacebook, faInstagram, faTwitter,faPinterest  } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import styled from "styled-components"
-import { mobile } from "../responsive"
+import styled from "styled-components";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
     display: flex;
-    ${mobile({ flexDirection: "column" })}
+    ${mobile({ flexDirection: "column" })};
 `
 const Left = styled.div`
     flex:1;
@@ -41,7 +41,7 @@ const SocialIcon = styled.div`
 const Center = styled.div`
     flex:1;
     padding: 20px;
-    ${mobile({ display: "none" })}
+    ${mobile({ display: "none" })};
 `
 
 const Title = styled.h3`
@@ -63,7 +63,7 @@ const ListItem = styled.li`
 const Right = styled.div`
     flex:1;
     padding: 20px;
-    ${mobile({ backgroundColor: "#fff8f8" })}
+    ${mobile({ backgroundColor: "#fff8f8" })};
 `
 const ContactItem = styled.div`
     margin-bottom: 20px;
@@ -80,7 +80,7 @@ const Footer = () => {
     return (
         <Container>
             <Left>
-                <Logo>PRIME.</Logo>
+                <Logo>BUTIQ.</Logo>
                 <Description>
                     There are many variations of Lorem Ipsum available, but the majority have suffered alternation in some fprm, by injection humor, or randomised words which don't look even slightly believable.
                 </Description>
