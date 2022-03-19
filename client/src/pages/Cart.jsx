@@ -5,6 +5,7 @@ import Footer from "../components/Footer"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { mobile } from "../responsive";
+import { useSelector } from 'react-redux'
 
 const Container = styled.div``
 
@@ -156,87 +157,72 @@ const SummaryButton = styled.button`
 `
 
 const Cart = () => {
-  return (
-    <Container>
-        <Navbar />
-        <Announcement />
-        <Wrapper>
-            <Title>YOUR CART</Title>
-            <Top>
-                <TopButton>CONTINUE SHOPPING</TopButton>
-                <TopTexts>
-                    <TopText>Shopping Bag(2)</TopText>
-                    <TopText>Your Wishlist(0)</TopText>
-                </TopTexts>
-                <TopButton type="filled">CHECKOUT NOW</TopButton>
-            </Top>
-            <Button>
-                <Info>
-                    <Product>
-                        <ProductDetail>
-                            <Image src="https://i.ibb.co/jGx1j4m/IMG-2301.jpg"/>
-                            <Details>
-                                <ProductName><b>Product:</b> BASEBALL JACKET</ProductName>
-                                <ProductId><b>ID:</b> 51516665498</ProductId>
-                                <ProductColor color="GREEN"/>
-                                <ProductSize><b>Size:</b> M</ProductSize>
-                            </Details>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountcontainer>
-                                <FontAwesomeIcon icon={faAdd}/>
-                                <ProductAmount>2</ProductAmount>
-                                <FontAwesomeIcon icon={faMinus}/>
-                            </ProductAmountcontainer>
-                            <ProductPrice>$ 130</ProductPrice>
-                        </PriceDetail>
-                    </Product>
-                    <Hr/>
-                    <Product>
-                        <ProductDetail>
-                            <Image src="https://i.ibb.co/fNHtDGM/IMG-2296.jpg"/>
-                            <Details>
-                                <ProductName><b>Product:</b> JORDAN SNEAKERS</ProductName>
-                                <ProductId><b>ID:</b> 51516665498</ProductId>
-                                <ProductColor color="black"/>
-                                <ProductSize><b>Size:</b> 35</ProductSize>
-                            </Details>
-                        </ProductDetail>
-                        <PriceDetail>
-                            <ProductAmountcontainer>
-                                <FontAwesomeIcon icon={faAdd}/>
-                                <ProductAmount>1</ProductAmount>
-                                <FontAwesomeIcon icon={faMinus}/>
-                            </ProductAmountcontainer>
-                            <ProductPrice>$ 40</ProductPrice>
-                        </PriceDetail>
-                    </Product>
-                </Info>
-                <Summary>
-                    <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-                    <SummaryItem>
-                        <SummaryItemText>Subtotal</SummaryItemText>
-                        <SummaryItemPrice>$ 80</SummaryItemPrice>
-                    </SummaryItem>
-                    <SummaryItem>
-                        <SummaryItemText>Estimated Shipping</SummaryItemText>
-                        <SummaryItemPrice>$ 7.50</SummaryItemPrice>
-                    </SummaryItem>
-                    <SummaryItem>
-                        <SummaryItemText>Shipping Discount</SummaryItemText>
-                        <SummaryItemPrice>$ -7.50</SummaryItemPrice>
-                    </SummaryItem>
-                    <SummaryItem type="total">
-                        <SummaryItemText>Total</SummaryItemText>
-                        <SummaryItemPrice>$ 80</SummaryItemPrice>
-                    </SummaryItem>
-                    <SummaryButton>CHECKOUT NOW</SummaryButton>
-                </Summary>
-            </Button>
-        </Wrapper>
-        <Footer />
-    </Container>
-  )
+    const cart = useSelector(state => state.cart)
+    return (
+        <Container>
+            <Navbar />
+            <Announcement />
+            <Wrapper>
+                <Title>YOUR CART</Title>
+                <Top>
+                    <TopButton>CONTINUE SHOPPING</TopButton>
+                    <TopTexts>
+                        <TopText>Shopping Bag(2)</TopText>
+                        <TopText>Your Wishlist(0)</TopText>
+                    </TopTexts>
+                    <TopButton type="filled">CHECKOUT NOW</TopButton>
+                </Top>
+                <Button>
+                    <Info>
+                        {cart.products.map((product) => (<Product>
+                            <ProductDetail>
+                                <Image src={product.image} />
+                                <Details>
+                                    <ProductName><b>Product:</b> {product.title}</ProductName>
+                                    <ProductId><b>ID:</b> {product._id}</ProductId>
+                                    <ProductColor color={product.color} />
+                                    <ProductSize><b>Size:</b> {product.size}</ProductSize>
+                                </Details>
+                            </ProductDetail>
+                            <PriceDetail>
+                                <ProductAmountcontainer>
+                                    <FontAwesomeIcon icon={faMinus} />
+                                    <ProductAmount>{product.quantity}</ProductAmount>
+                                    <FontAwesomeIcon icon={faAdd} />
+                                </ProductAmountcontainer>
+                                <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                            </PriceDetail>
+                        </Product>
+                        ))
+                        }
+                        <Hr />
+
+                    </Info>
+                    <Summary>
+                        <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+                        <SummaryItem>
+                            <SummaryItemText>Subtotal</SummaryItemText>
+                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                        </SummaryItem>
+                        <SummaryItem>
+                            <SummaryItemText>Estimated Shipping</SummaryItemText>
+                            <SummaryItemPrice>$ 7.50</SummaryItemPrice>
+                        </SummaryItem>
+                        <SummaryItem>
+                            <SummaryItemText>Shipping Discount</SummaryItemText>
+                            <SummaryItemPrice>$ -7.50</SummaryItemPrice>
+                        </SummaryItem>
+                        <SummaryItem type="total">
+                            <SummaryItemText>Total</SummaryItemText>
+                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+                        </SummaryItem>
+                        <SummaryButton>CHECKOUT NOW</SummaryButton>
+                    </Summary>
+                </Button>
+            </Wrapper>
+            <Footer />
+        </Container>
+    )
 }
 
 export default Cart
