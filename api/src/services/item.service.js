@@ -47,6 +47,7 @@ class ItemService {
         if(!item) throw new CustomError('Item not found!', 404)
 
         return {
+            _id: item._id,
             title: item.title,
             description: item.description,
             image: item.image,

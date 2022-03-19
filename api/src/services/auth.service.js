@@ -50,11 +50,6 @@ class AuthService {
             token: token
         }
     }
-
-    // User Logout
-    // async logout(data) {
-
-    // }
 }
 
 module.exports = new AuthService
