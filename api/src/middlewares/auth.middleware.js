@@ -4,7 +4,8 @@ const Role = require('../models/role.model')
 const CustomError = require('../utils/custom-error')
 
 const verifyToken = async (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1]
+    // const token = req.headers.authorization.split(" ")[1]
+    const token = req.header('Authorization').replace('Bearer ', '')
     if (!token) throw new CustomError('Unauthorized access: Token not found!', 401)
 
     const decoded = JWT.verify(token, process.env.JWT_SECRET)
@@ -24,7 +25,8 @@ const auth = (req, res, next) => {
             next()
         }
         else {
-            throw new CustomError('Unauthorized access!', 401)
+            res.status(403).send('Unauthorized access!')
+            // throw new CustomError('Unauthorized access!', 401)
         }
     })
 }
@@ -35,7 +37,7 @@ const authAndAdmin = (req, res, next) => {
             next()
         }
         else {
-            throw new CustomError('Unauthorized access!', 401)
+            res.status(403).send('You are not allowed')
         }
     })
 }

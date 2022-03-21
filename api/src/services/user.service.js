@@ -24,8 +24,15 @@ class UserService {
     }
 
     // Get all users
-    async getAllUsers() {
-        const users = await User.find()
+    async getAllUsers(query) {
+        let users
+
+        if (query.new) {
+             users =  await User.find().sort({ _id: -1 }).limit(5)
+        }else {
+             users = await User.find()
+        }
+        
         if (!users) throw new CustomError('No user found!', 404)
 
         return users

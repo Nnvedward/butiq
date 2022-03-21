@@ -13,7 +13,7 @@ class UserController {
     }
 
     async getAllUsers(req, res) {
-        const result = await UserServ.getAllUsers()
+        const result = await UserServ.getAllUsers(req.query)
         res.status(200).send(response('All users', result))
     }
 

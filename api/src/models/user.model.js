@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
         trim: true
     },
+    image: {
+        type: String
+    },
     role: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
