@@ -28,11 +28,11 @@ class UserService {
         let users
 
         if (query.new) {
-             users =  await User.find().sort({ _id: -1 }).limit(5)
-        }else {
-             users = await User.find()
+            users = await User.find().sort({ _id: -1 }).limit(5)
+        } else {
+            users = await User.find()
         }
-        
+
         if (!users) throw new CustomError('No user found!', 404)
 
         return users
@@ -44,6 +44,29 @@ class UserService {
         if (!user) throw new CustomError('No user found!', 404)
 
         return user
+    }
+
+    // Get User Stats
+    async getUserStats() {
+        const date = new Date()
+        const lastYear = new Date(date.setFullYear(date.getFullYear() - 1))
+
+        const data = await User.aggregate([
+            { $match: { createdAt: { $gte: lastYear } } },
+            {
+                $project: {
+                    month: { $month: "$createdAt" }
+                }
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    total: { $sum: 1 }
+                }
+            }
+        ])
+
+        return data
     }
 }
 
