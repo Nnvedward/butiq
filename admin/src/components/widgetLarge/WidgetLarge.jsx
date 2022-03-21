@@ -1,6 +1,21 @@
 import "./widgetLarge.css"
+import { useState, useEffect } from "react"
+import { userRequest } from '../../requestMethods'
+import { format } from 'timeago.js'
 
 const WidgetLarge = () => {
+  const [orders, setOrders] = useState([])
+
+    useEffect(() => {
+        const getOrders = async () => {
+            try{
+                const res = await userRequest.get('order')
+                setOrders(res.data.data)
+            }catch{}
+        }
+        getOrders()
+    },[])
+
   const Button = ({ type }) => {
     return <button className={"widgetLgButton " + type}>{type}</button>
   }
@@ -14,42 +29,16 @@ const WidgetLarge = () => {
               <th className="widgetLgTh">Amount</th>
               <th className="widgetLgTh">Status</th>
             </tr>
-            <tr className="widgetLgTr">
+            {orders.map((order) => (
+            <tr className="widgetLgTr" key={order._id}>
               <td className="widgetLgUser">
-                <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" className="widgetLgImg" alt=""/>
-                <span className="widgetLgName">Clark Kent</span>
+                <span className="widgetLgName">{order.user}</span>
               </td>
-              <td className="widgetLgDate">13 Mar 2022</td>
-              <td className="widgetLgAmount">$250.00</td>
-              <td className="widgetLgStatus"><Button type="Approved"/></td>
+              <td className="widgetLgDate">{format(order.createdAt)}</td>
+              <td className="widgetLgAmount">${order.amount}</td>
+              <td className="widgetLgStatus"><Button type={order.status}/></td>
             </tr>
-            <tr className="widgetLgTr">
-              <td className="widgetLgUser">
-                <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" className="widgetLgImg" alt=""/>
-                <span className="widgetLgName">Clark Kent</span>
-              </td>
-              <td className="widgetLgDate">13 Mar 2022</td>
-              <td className="widgetLgAmount">$250.00</td>
-              <td className="widgetLgStatus"><Button type="Pending"/></td>
-            </tr>
-            <tr className="widgetLgTr">
-              <td className="widgetLgUser">
-                <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" className="widgetLgImg" alt=""/>
-                <span className="widgetLgName">Clark Kent</span>
-              </td>
-              <td className="widgetLgDate">13 Mar 2022</td>
-              <td className="widgetLgAmount">$250.00</td>
-              <td className="widgetLgStatus"><Button type="Declined"/></td>
-            </tr>
-            <tr className="widgetLgTr">
-              <td className="widgetLgUser">
-                <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" className="widgetLgImg" alt=""/>
-                <span className="widgetLgName">Clark Kent</span>
-              </td>
-              <td className="widgetLgDate">13 Mar 2022</td>
-              <td className="widgetLgAmount">$250.00</td>
-              <td className="widgetLgStatus"><Button type="Pending"/></td>
-            </tr>
+            ))}
         </table>
     </div>
   )

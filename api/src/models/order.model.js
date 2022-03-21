@@ -25,8 +25,10 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        default: 'Pending'
+        default: 'pending'
     }
+}, {
+    timestamps: true
 })
 
 const Order = mongoose.model('Order', orderSchema)
