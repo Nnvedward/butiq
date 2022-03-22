@@ -26,6 +26,11 @@ class OrderController {
         const result = await OrderServ.deleteOrder(req.params.orderId)
         res.status(200).send(response('Order deleted!', result))
     }
+
+    async getIncome(req, res) {
+        const result = await OrderServ.getIncome()
+        res.status(200).send(response('Monthly income!', result))
+    }
 }
 
 module.exports = new OrderController()

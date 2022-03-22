@@ -36,10 +36,10 @@ class OrderService {
     // Get user orders
     async getUserOrder(userId) {
         const orders = await Order.find({ user: userId })
-        
+
         if (!orders) throw new CustomError('User orders not found!', 404)
 
-       return orders
+        return orders
     }
 
     // Get all orders
@@ -58,6 +58,31 @@ class OrderService {
         if (!order) throw new CustomError('Order not found!', 404)
 
         return order
+    }
+
+    // Get monthly income
+    async getIncome() {
+        const date = new Date()
+        const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+        const prevMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))
+
+        const income = await Order.aggregate([
+            { $match: { createdAt: { $gte: prevMonth } } },
+            {
+                $project: {
+                    month: { $month: "$createdAt"},
+                    sales: "$amount"
+                }
+            },
+            {
+                $group: {
+                    _id: "$month",
+                    total: {$sum: "$sales"}
+                }
+            }
+        ])
+
+        return income
     }
 }
 
