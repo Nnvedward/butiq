@@ -32,14 +32,13 @@ const Home = () => {
                 res.data.data.map(item => {
                     setUserStats(prev => [
                         ...prev,
-                        { name: MONTHS[item._id - 1], "Active user": item.total }
+                        { name: MONTHS[item._id - 1], "Active User": item.total }
                     ])
                 })
             } catch { }
         }
         getStats()
     }, [MONTHS])
-
     return (
         <div className="home">
             <FeaturedInfo />
