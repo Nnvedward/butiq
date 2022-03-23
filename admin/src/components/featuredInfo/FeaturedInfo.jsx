@@ -11,8 +11,11 @@ const FeaturedInfo = () => {
         const getIncome = async () => {
             try {
                 const res = await userRequest.get('order/income')
-                setIncome(res.data.data)
-                setPerc((res.data.data[1].total * 100) / res.data.data[0].total - 100)
+                const list = res.data.data.sort((a, b)=> {
+                    return a._id - b._id
+                })
+                setIncome(list)
+                setPerc((list[1].total * 100) / list[0].total - 100)
             } catch { }
         }
         getIncome()

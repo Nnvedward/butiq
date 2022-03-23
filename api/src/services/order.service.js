@@ -61,23 +61,30 @@ class OrderService {
     }
 
     // Get monthly income
-    async getIncome() {
+    async getIncome(query) {
         const date = new Date()
         const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
         const prevMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))
 
         const income = await Order.aggregate([
-            { $match: { createdAt: { $gte: prevMonth } } },
+            {
+                $match: {
+                    createdAt: { $gte: prevMonth },
+                    ...(query.iId && {
+                        items: { $elemMatch: { itemId: query.iId } }
+                    })
+                },
+            },
             {
                 $project: {
-                    month: { $month: "$createdAt"},
+                    month: { $month: "$createdAt" },
                     sales: "$amount"
                 }
             },
             {
                 $group: {
                     _id: "$month",
-                    total: {$sum: "$sales"}
+                    total: { $sum: "$sales" }
                 }
             }
         ])

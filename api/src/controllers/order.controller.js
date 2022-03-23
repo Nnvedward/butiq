@@ -28,7 +28,7 @@ class OrderController {
     }
 
     async getIncome(req, res) {
-        const result = await OrderServ.getIncome()
+        const result = await OrderServ.getIncome(req.query)
         res.status(200).send(response('Monthly income!', result))
     }
 }
