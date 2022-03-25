@@ -55,7 +55,7 @@ export const addProduct = async (product, dispatch) => {
     dispatch(addProductStart())
 
     try{
-        const res = await userRequest.post(`/item`, product)
+        const res = await userRequest.post('/item/create', product)
         dispatch(addProductSuccess(res.data.data))
     } catch(err) {
         dispatch(addProductFailure())
