@@ -21,7 +21,7 @@ const WidgetSmall = () => {
             <ul className="widgetSmList">
             {users.map((user) => (
                 <li className="widgetSmListItem" key={user._id}>
-                    <img src={user.image || "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"} alt="Shawn" className="widgetSmImg"/>
+                    <img src={user.image || "https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif"} alt="User" className="widgetSmImg"/>
                     <div className="widgetSmUser">
                         <span className="widgetSmUsername">{user.username}</span>
                     </div>

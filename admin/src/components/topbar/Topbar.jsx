@@ -7,7 +7,7 @@ const Topbar = () => {
         <div className='topbar'>
             <div className='topbarWrapper'>
                 <div className='topLeft'>
-                    <span className='logo'>DASHBOARD</span>
+                    <span className='logo'>BUTIQ.</span>
                 </div>
                 <div className='topRight'>
                     <div className='topbarIconContainer'>
@@ -20,7 +20,7 @@ const Topbar = () => {
                     <div className='topbarIconContainer'>
                         <Settings />
                     </div>
-                    <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" alt="IMG-2313" className='topAvatar' border="0"/>
+                    <img src="https://i.ibb.co/fGsk7V7/IMG-2313.jpg" alt="User" className='topAvatar' border="0"/>
                 </div>
             </div>
         </div>

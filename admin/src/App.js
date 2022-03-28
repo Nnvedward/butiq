@@ -17,7 +17,12 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 
 const App = () => {
-  const admin = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.role === ("Admin" || "SuperAdmin")
+  let admin = false
+
+  if (JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser) {
+    admin = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.role === ("Admin" || "SuperAdmin")
+  }
+
   return (
     <Router>
       <Switch>

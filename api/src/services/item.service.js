@@ -8,6 +8,7 @@ class ItemService {
         await item.save()
 
         return data = {
+            _id: item._id,
             title: item.title,
             description: item.description,
             image: item.image,
@@ -30,6 +31,7 @@ class ItemService {
         if (!item) throw new CustomError('Item not found!', 404)
 
         return data = {
+            _id: item._id,
             title: item.title,
             description: item.description,
             image: item.image,
