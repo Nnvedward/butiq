@@ -114,10 +114,10 @@
     justify-content: space-around;
 }
 
-.productUpload {
-    display: flex;
-    align-items: center;
+.productFormRight>label {
+    color: gray;
 }
+
 
 .productButton {
     border: none;

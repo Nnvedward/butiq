@@ -151,13 +151,8 @@ const Product = () => {
                         </select>
                     </div>
                     <div className='productFormRight'>
-                        <div className='productUpload'>
-                            <img src={product.image} className='productUploadImg' alt='' />
-                            <label for='file'>
-                                <Publish />
-                            </label>
-                            <input type='file' id='file' style={{ display: "none" }} onChange={(e) => setFile(e.target.files[0])} />
-                        </div>
+                            <label></label>
+                            <input type='file' id='file' onChange={(e) => setFile(e.target.files[0])} />
                         <button onClick={handleClick} className='productButton'>Update</button>
                     </div>
                 </form>

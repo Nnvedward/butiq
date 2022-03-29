@@ -10,14 +10,23 @@ const NewProduct = () => {
     const [inputs, setInputs] = useState({})
     const [file, setFile] = useState(null)
     const [categories, setCategories] = useState([])
+    const [manufacturers, setManufacturers] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const getCategory = async () => {
+        const getCategories = async () => {
             const res = await userRequest.get('category')
             setCategories(res.data.data)
         }
-        getCategory()
+        getCategories()
+    }, [])
+
+    useEffect(() => {
+        const getManufacturers = async () => {
+            const res = await userRequest.get('manufacturer')
+            setManufacturers(res.data.data)
+        }
+        getManufacturers()
     }, [])
 
     const handleChange = (e) => {
@@ -121,7 +130,11 @@ const NewProduct = () => {
                     </div>
                     <div className='addProductItem'>
                         <label>Manufacturer</label>
-                        <input name="manufacturer" type="text" placeholder="Manufacturer" onChange={handleChange} />
+                        <select name='manufacturer' id='manufacturer' onChange={handleChange}>
+                            {manufacturers.map((manu) => (
+                                <option key={manu._id} value={manu._id}>{manu.name}</option>
+                            ))}
+                        </select>
                     </div>
                     <button onClick={handleClick} className='addProductButton'>Create</button>
                 </div>
