@@ -12,7 +12,7 @@ const ProductList = () => {
 
     useEffect(() => {
         getProducts(dispatch)
-    }, [dispatch])
+    },[dispatch])
 
     const handleDelete = (id) => {
         deleteProduct(id, dispatch)

@@ -1,14 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './newProduct.css'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import app from '../../firebase'
 import { addProduct } from '../../redux/apiCalls'
 import { useDispatch } from 'react-redux'
+import { userRequest } from '../../requestMethods'
 
 const NewProduct = () => {
     const [inputs, setInputs] = useState({})
     const [file, setFile] = useState(null)
+    const [categories, setCategories] = useState([])
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        const getCategory = async () => {
+            const res = await userRequest.get('category')
+            setCategories(res.data.data)
+        }
+        getCategory()
+    }, [])
 
     const handleChange = (e) => {
         setInputs(prev => {
@@ -103,7 +113,11 @@ const NewProduct = () => {
                     </div>
                     <div className='addProductItem'>
                         <label>Category</label>
-                        <input name="category" type="text" placeholder="Category" onChange={handleChange} />
+                        <select name='category' id='category' onChange={handleChange}>
+                            {categories.map((cat) => (
+                                <option key={cat._id} value={cat._id}>{cat.name}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='addProductItem'>
                         <label>Manufacturer</label>
