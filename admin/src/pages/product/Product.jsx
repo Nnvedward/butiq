@@ -49,7 +49,7 @@ const Product = () => {
             } catch { }
         }
         getStats()
-    }, [productId, MONTHS, dispatch])
+    }, [productId, MONTHS])
 
     const handleChange = (e) => {
         setInputs(prev => {
@@ -108,10 +108,7 @@ const Product = () => {
     return (
         <div className='product'>
             <div className='productTitleContainer'>
-                <h1 className='productTitle'>Product</h1>
-                <Link to="/newProduct">
-                    <button className='productAddButton'>Create</button>
-                </Link>
+                
             </div>
             <div className='productTop'>
                 <div className='productTopLeft'>

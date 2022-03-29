@@ -12,7 +12,7 @@ const ProductList = () => {
 
     useEffect(() => {
         getProducts(dispatch)
-    },[dispatch])
+    }, [dispatch])
 
     const handleDelete = (id) => {
         deleteProduct(id, dispatch)
@@ -27,7 +27,7 @@ const ProductList = () => {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.image} alt=""/>
+                        <img className="productListImg" src={params.row.image} alt="" />
                         {params.row.title}
                     </div>
                 )
@@ -50,10 +50,10 @@ const ProductList = () => {
             renderCell: (params) => {
                 return (
                     <div className="productListAction">
-                        <Link to={"/product/"+ params.row._id}>
+                        <Link to={"/product/" + params.row._id}>
                             <button className="productListEdit">Edit</button>
                         </Link>
-                        <DeleteOutline className="productListDelete" onClick={() => handleDelete(params.row._id)}/>
+                        <DeleteOutline className="productListDelete" onClick={() => handleDelete(params.row._id)} />
                     </div>
                 )
             }
@@ -61,6 +61,12 @@ const ProductList = () => {
     ];
     return (
         <div className='productList'>
+            <div className='productTitleContainer'>
+                <h1 className='productTitle'>Products</h1>
+                <Link to="/newProduct">
+                    <button className='productAddBtn'>Add Product</button>
+                </Link>
+            </div>
             <DataGrid
                 rows={products}
                 columns={columns}
