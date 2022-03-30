@@ -1,13 +1,14 @@
 import './product.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Chart from '../../components/chart/Chart'
-import { Publish } from '@mui/icons-material'
 import { useEffect, useMemo, useState } from 'react'
 import { userRequest } from '../../requestMethods'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import app from '../../firebase'
 import { updateProduct } from '../../redux/apiCalls'
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const Product = () => {
     const location = useLocation()
@@ -16,6 +17,7 @@ const Product = () => {
     const [pStats, setPStats] = useState([])
     const [inputs, setInputs] = useState({})
     const [file, setFile] = useState(null)
+    const [status, setStatus] = useState(undefined)
     const dispatch = useDispatch()
 
     const MONTHS = useMemo(() => [
@@ -67,14 +69,8 @@ const Product = () => {
 
             const uploadTask = uploadBytesResumable(storageRef, file);
 
-            // Register three observers:
-            // 1. 'state_changed' observer, called any time the state changes
-            // 2. Error observer, called on failure
-            // 3. Completion observer, called on successful completion
             uploadTask.on('state_changed',
                 (snapshot) => {
-                    // Observe state change events such as progress, pause, and resume
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                     switch (snapshot.state) {
@@ -91,25 +87,34 @@ const Product = () => {
                     // Handle unsuccessful uploads
                 },
                 () => {
-                    // Handle successful uploads on complete
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         const item = { ...inputs, image: downloadURL }
-                        updateProduct(productId, item, dispatch)
+                        try {
+                            updateProduct(productId, item, dispatch)
+                            setStatus({ type: 'success' })
+                        } catch (e) {
+                            setStatus({ type: 'error' }, e)
+                        }
                     });
                 }
             );
         } else {
             const item = { ...inputs }
-            updateProduct(productId, item, dispatch)
+            try {
+                updateProduct(productId, item, dispatch)
+                setStatus({ type: 'success' })
+            } catch (e) {
+                setStatus({ type: 'error' }, e)
+            }
         }
     }
 
     return (
         <div className='product'>
-            <div className='productTitleContainer'>
-                
-            </div>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                {status?.type === 'success' && <Alert severity="success">Product Updated Successfully!</Alert>}
+                {status?.type === 'error' && <Alert severity="error">An Error Occured!</Alert>}
+            </Stack>
             <div className='productTop'>
                 <div className='productTopLeft'>
                     <Chart data={pStats} dataKey="Sales" title="Sales Performance" />
@@ -151,8 +156,8 @@ const Product = () => {
                         </select>
                     </div>
                     <div className='productFormRight'>
-                            <label></label>
-                            <input type='file' id='file' onChange={(e) => setFile(e.target.files[0])} />
+                        <label></label>
+                        <input type='file' id='file' onChange={(e) => setFile(e.target.files[0])} />
                         <button onClick={handleClick} className='productButton'>Update</button>
                     </div>
                 </form>

@@ -5,12 +5,15 @@ import app from '../../firebase'
 import { addProduct } from '../../redux/apiCalls'
 import { useDispatch } from 'react-redux'
 import { userRequest } from '../../requestMethods'
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const NewProduct = () => {
     const [inputs, setInputs] = useState({})
     const [file, setFile] = useState(null)
     const [categories, setCategories] = useState([])
     const [manufacturers, setManufacturers] = useState([])
+    const [status, setStatus] = useState(undefined)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -71,14 +74,24 @@ const NewProduct = () => {
                 // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     const product = { ...inputs, image: downloadURL }
-                    addProduct(product, dispatch)
+                    try {
+                        addProduct(product, dispatch)
+                        setStatus({ type: 'success' })
+                    } catch (e) {
+                        setStatus({ type: 'error' }, e)
+                    }
                 });
             }
         );
+        setInputs("")
     }
 
     return (
         <div className='newProduct'>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                {status?.type === 'success' && <Alert severity="success">Product Added Successfully!</Alert>}
+                {status?.type === 'error' && <Alert severity="error">An Error Occured!</Alert>}
+            </Stack>
             <h1 className='addProductTitle'>New Product</h1>
             <form className='addProductForm'>
                 <div className='addProductFormList'>
@@ -107,6 +120,7 @@ const NewProduct = () => {
                     <div className='addProductItem'>
                         <label>Size</label>
                         <select name='size' id='size' onChange={handleChange}>
+                            <option value="">-- Select --</option>
                             <option value='S'>S</option>
                             <option value='M'>M</option>
                             <option value='L'>L</option>
@@ -116,6 +130,7 @@ const NewProduct = () => {
                     <div className='addProductItem'>
                         <label>In Stock</label>
                         <select name='inStock' id='inStock' onChange={handleChange}>
+                            <option value="">-- Select --</option>
                             <option value='true'>Yes</option>
                             <option value='false'>No</option>
                         </select>
@@ -123,6 +138,7 @@ const NewProduct = () => {
                     <div className='addProductItem'>
                         <label>Category</label>
                         <select name='category' id='category' onChange={handleChange}>
+                            <option value="">-- Select --</option>
                             {categories.map((cat) => (
                                 <option key={cat._id} value={cat._id}>{cat.name}</option>
                             ))}
@@ -131,6 +147,7 @@ const NewProduct = () => {
                     <div className='addProductItem'>
                         <label>Manufacturer</label>
                         <select name='manufacturer' id='manufacturer' onChange={handleChange}>
+                            <option value="">-- Select --</option>
                             {manufacturers.map((manu) => (
                                 <option key={manu._id} value={manu._id}>{manu.name}</option>
                             ))}
