@@ -10,6 +10,8 @@ import StripeCheckout from 'react-stripe-checkout'
 import { useState, useEffect } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { removeProduct } from '../redux/cartRedux'
 
 const KEY = process.env.REACT_APP_STRIPE_KEY
 
@@ -54,6 +56,13 @@ const Button = styled.div`
     display: flex;
     justify-content: space-between;
     ${mobile({ flexDirection: "column" })}
+`
+
+const ButtonX = styled.div`
+    padding: 10px;
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
 `
 
 const Info = styled.div`
@@ -166,6 +175,7 @@ const Cart = () => {
     const cart = useSelector(state => state.cart)
     const [stripeToken, setStripeToken] = useState(null)
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const onToken = (token) => {
         setStripeToken(token)
@@ -178,12 +188,17 @@ const Cart = () => {
                     tokenId: stripeToken.id,
                     amount: cart.total * 100
                 })
-                history.push('/success', {data: res.data})
+                history.push('/success', { data: res.data })
             } catch (err) { }
         }
         stripeToken && makeRequest()
     }, [stripeToken, cart.total, history])
 
+    const handleRemove = (id) => {
+        dispatch(removeProduct({ ...cart.total, id }))
+    }
+
+    console.log(cart.products)
     return (
         <Container>
             <Navbar />
@@ -217,6 +232,7 @@ const Cart = () => {
                                     <FontAwesomeIcon icon={faAdd} />
                                 </ProductAmountcontainer>
                                 <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                                <ButtonX onClick={() => handleRemove(product._id)}>remove</ButtonX>
                             </PriceDetail>
                         </Product>
                         ))

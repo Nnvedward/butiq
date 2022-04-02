@@ -26,7 +26,6 @@ const auth = (req, res, next) => {
         }
         else {
             res.status(403).send('Unauthorized access!')
-            // throw new CustomError('Unauthorized access!', 401)
         }
     })
 }
