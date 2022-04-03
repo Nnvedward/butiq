@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { userRequest } from "../requestMethods";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
-import { removeProduct } from '../redux/cartRedux'
+import { getTotals, removeProduct } from '../redux/cartRedux'
 
 const KEY = process.env.REACT_APP_STRIPE_KEY
 
@@ -180,6 +180,10 @@ const Cart = () => {
     const onToken = (token) => {
         setStripeToken(token)
     }
+    
+    useEffect(() => {
+        dispatch(getTotals())
+    },[cart, dispatch])
 
     useEffect(() => {
         const makeRequest = async () => {
@@ -194,8 +198,9 @@ const Cart = () => {
         stripeToken && makeRequest()
     }, [stripeToken, cart.total, history])
 
+
     const handleRemove = (id) => {
-        dispatch(removeProduct({ ...cart.total, id }))
+        dispatch(removeProduct({ id }))
     }
 
     console.log(cart.products)
