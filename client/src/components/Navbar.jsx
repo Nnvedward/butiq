@@ -75,7 +75,7 @@ const Navbar = () => {
                     </Link>
                 </Left>
                 <Right>
-                    {user ? (<Link style={{ textDecoration: "none", color: "inherit", fontSize: 25 }} to="/shop">
+                    {user ? (<Link style={{ textDecoration: "none", color: "inherit", fontSize: 20 }} to="/shop">
                         <MenuItem>SHOP</MenuItem>
                     </Link>) : (
                         <>

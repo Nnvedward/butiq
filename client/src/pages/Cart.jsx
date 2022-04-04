@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import StripeCheckout from 'react-stripe-checkout'
 import { useState, useEffect } from "react";
 import { userRequest } from "../requestMethods";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { getTotals, removeProduct } from '../redux/cartRedux'
 
@@ -172,6 +172,7 @@ const SummaryButton = styled.button`
 `
 
 const Cart = () => {
+    const user = useSelector(state => state.user.currentUser)
     const cart = useSelector(state => state.cart)
     const [stripeToken, setStripeToken] = useState(null)
     const history = useHistory()
@@ -180,10 +181,10 @@ const Cart = () => {
     const onToken = (token) => {
         setStripeToken(token)
     }
-    
+
     useEffect(() => {
         dispatch(getTotals())
-    },[cart, dispatch])
+    }, [cart, dispatch])
 
     useEffect(() => {
         const makeRequest = async () => {
@@ -263,6 +264,7 @@ const Cart = () => {
                             <SummaryItemText>Total</SummaryItemText>
                             <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                         </SummaryItem>
+
                         <StripeCheckout
                             name="BUTIQ."
                             billingAddress
@@ -272,7 +274,11 @@ const Cart = () => {
                             token={onToken}
                             stripeKey={KEY}
                         >
-                            <SummaryButton>CHECKOUT NOW</SummaryButton>
+                            {user ? (
+                                <SummaryButton>CHECKOUT NOW</SummaryButton>
+                            ) : (
+                                <Redirect to="/login" />
+                            )}
                         </StripeCheckout>
                     </Summary>
                 </Button>
