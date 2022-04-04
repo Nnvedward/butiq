@@ -26,8 +26,8 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/login">
-        {admin ? <Redirect to="/"/> : <Login />}
+        <Route path="/admin">
+          {admin ? <Redirect to="/"/> : <Login />}
         </Route>
         { admin && (
           <>

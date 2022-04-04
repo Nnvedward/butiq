@@ -65,6 +65,7 @@ const CartIcon = styled.span`
 
 const Navbar = () => {
     const quantity = useSelector(state => state.cart.quantity)
+    const user = useSelector(state => state.user.currentUser)
     return (
         <Container>
             <Wrapper>
@@ -74,12 +75,19 @@ const Navbar = () => {
                     </Link>
                 </Left>
                 <Right>
-                    <Link style={{ textDecoration: "none", color: "inherit" }} to="/register">
-                        <MenuItem>REGISTER</MenuItem>
-                    </Link>
-                    <Link style={{ textDecoration: "none", color: "inherit" }} to="/login">
-                        <MenuItem>SIGN IN</MenuItem>
-                    </Link>
+                    {user ? (<Link style={{ textDecoration: "none", color: "inherit", fontSize: 25 }} to="/shop">
+                        <MenuItem>SHOP</MenuItem>
+                    </Link>) : (
+                        <>
+                            <Link style={{ textDecoration: "none", color: "inherit" }} to="/register">
+                                <MenuItem>REGISTER</MenuItem>
+                            </Link>
+                            <Link style={{ textDecoration: "none", color: "inherit" }} to="/login">
+                                <MenuItem>SIGN IN</MenuItem>
+                            </Link>
+                        </>
+                    )}
+
                     <Link style={{ textDecoration: "none", color: "inherit" }} to="/cart">
                         <MenuItem>
                             <FontAwesomeIcon icon={faCartShopping} />
