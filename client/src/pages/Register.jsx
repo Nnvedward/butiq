@@ -1,5 +1,9 @@
 import styled from "styled-components"
 import { mobile } from '../responsive'
+import { useEffect, useState } from 'react'
+import { signUp } from "../redux/apiCalls"
+import { useDispatch, useSelector } from 'react-redux'
+import { publicRequest } from "../requestMethods"
 
 const Container = styled.div`
     width: 100vw;
@@ -49,29 +53,76 @@ const Button = styled.button`
     background-color: black;
     color: white;
     cursor: pointer;
+    &:disabled {
+        color: black;
+        cursor: not-allowed;
+    }
+`
+const Error = styled.span`
+    color: red;
 `
 
 const Register = () => {
-  return (
-    <Container>
-        <Wrapper>
-            <Title>CREATE AN ACCOUNT</Title>
-            <Form>
-                <Input placeholder="name"/>
-                <Input placeholder="last name"/>
-                <Input placeholder="username"/>
-                <Input placeholder="email"/>
-                <Input placeholder="password"/>
-                <Input placeholder="confirm password"/>
-                <Agreement>
-                    By creating an account, I consent to the proccessing
-                     of my personal data in accordance with the <b>PRIVACY POLICY</b>
-                </Agreement>
-                <Button>CREATE</Button>
-            </Form>
-        </Wrapper>
-    </Container>
-  )
+    const [inputs, setInputs] = useState('')
+    const [role, setRole] = useState('')
+    const dispatch = useDispatch()
+    const { isFetching, error } = useSelector(state => state.user)
+
+    useEffect(() => {
+        const getRole = async () => {
+            try {
+                const res = await publicRequest.get('role/user')
+                setRole(res.data.data)
+            } catch { }
+        }
+        getRole()
+    }, [])
+
+    const handleChange = (e) => {
+        setInputs(prev => {
+            return { ...prev, [e.target.name]: e.target.value }
+        })
+    }
+
+    const handleClick = (e) => {
+        e.preventDefault()
+        signUp(dispatch, { ...inputs, role })
+    }
+    return (
+        <Container>
+            <Wrapper>
+                <Title>CREATE AN ACCOUNT</Title>
+                <Form>
+                    <Input
+                        name="name"
+                        placeholder="name"
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="username"
+                        placeholder="username"
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="email"
+                        placeholder="email"
+                        onChange={handleChange}
+                    />
+                    <Input
+                        name="password"
+                        placeholder="password"
+                        onChange={handleChange}
+                    />
+                    <Agreement>
+                        By creating an account, I consent to the proccessing
+                        of my personal data in accordance with the <b>PRIVACY POLICY</b>
+                    </Agreement>
+                    <Button onClick={handleClick} disabled={isFetching}>CREATE</Button>
+                    {error && <Error>Something went wrong!</Error>}
+                </Form>
+            </Wrapper>
+        </Container>
+    )
 }
 
 export default Register
