@@ -7,6 +7,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import Success from "./pages/Success";
 import { useSelector } from 'react-redux'
+import Shop from "./pages/Shop";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser)
@@ -15,6 +16,9 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="/shop">
+          <Shop />
         </Route>
         <Route path="/products/:category">
           <ProductList />

@@ -36,18 +36,22 @@ const Button = styled.button`
     color: gray;
     cursor: pointer;
     font-weight: 600;
+    &:hover{
+        background-color: #f1f1f1;
+        transform: scale(1.1)
+    }
 `
 
 const CategoryItem = ({ category }) => {
     return (
         <Container>
-            <Link to={`/products/${category.category}`}>
-                <Image src={category.img} />
-                <Info>
-                    <Title>{category.title}</Title>
+            <Image src={category.image} />
+            <Info>
+                <Title>{category.name}</Title>
+                <Link to={`/products/${category._id}`}>
                     <Button>SHOP NOW</Button>
-                </Info>
-            </Link>
+                </Link>
+            </Info>
         </Container>
     )
 }

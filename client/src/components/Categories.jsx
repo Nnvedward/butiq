@@ -1,7 +1,9 @@
 import styled from "styled-components"
-import { categories } from '../data'
+ import { publicRequest } from '../requestMethods'
 import CategoryItem from "./CategoryItem"
 import { mobile } from "../responsive"
+import { useEffect, useState } from "react"
+
 
 const Container = styled.div`
     display: flex;
@@ -11,10 +13,21 @@ const Container = styled.div`
 `
 
 const Categories = () => {
+  const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const res = await publicRequest.get('category')
+                setCategories(res.data.data)
+            } catch {}
+        }
+        getCategories()
+    },[categories])
   return (
     <Container>
-        {categories.map(category => (
-            <CategoryItem category={category} key={category.id} />
+        {categories.slice(0,3).map(category => (
+            <CategoryItem category={category} key={category._id} />
         ))}
     </Container>
   )
