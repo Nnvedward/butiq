@@ -15,6 +15,7 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
+import Category from "./pages/category/Category";
 
 const App = () => {
   let admin = null
@@ -54,6 +55,9 @@ const App = () => {
               </Route>
               <Route path="/newProduct">
                 <NewProduct />
+              </Route>
+              <Route path="/category">
+                <Category />
               </Route>
             </div>
           </>)

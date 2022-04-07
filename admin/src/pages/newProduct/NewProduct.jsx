@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './newProduct.css'
+import { Link } from 'react-router-dom'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import app from '../../firebase'
 import { addProduct } from '../../redux/apiCalls'
@@ -46,10 +47,6 @@ const NewProduct = () => {
 
         const uploadTask = uploadBytesResumable(storageRef, file);
 
-        // Register three observers:
-        // 1. 'state_changed' observer, called any time the state changes
-        // 2. Error observer, called on failure
-        // 3. Completion observer, called on successful completion
         uploadTask.on('state_changed',
             (snapshot) => {
                 // Observe state change events such as progress, pause, and resume
@@ -83,7 +80,7 @@ const NewProduct = () => {
                 });
             }
         );
-        setInputs("")
+        setInputs({})
     }
 
     return (
@@ -92,7 +89,12 @@ const NewProduct = () => {
                 {status?.type === 'success' && <Alert severity="success">Product Added Successfully!</Alert>}
                 {status?.type === 'error' && <Alert severity="error">An Error Occured!</Alert>}
             </Stack>
-            <h1 className='addProductTitle'>New Product</h1>
+            <div className='addProductTitleContainer'>
+                <h1>New Product</h1>
+                <Link to="/category">
+                    <button className='addProductAddBtn'>Create Category</button>
+                </Link>
+            </div>
             <form className='addProductForm'>
                 <div className='addProductFormList'>
                     <div className='addProductItem'>

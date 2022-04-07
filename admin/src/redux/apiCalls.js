@@ -1,6 +1,7 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux"
 import { publicRequest, userRequest } from '../requestMethods'
 import { deleteProductStart, deleteProductSuccess, deleteProductFailure, getProductFailure, getProductStart, getProductSuccess, updateProductStart, updateProductSuccess, updateProductFailure, addProductStart, addProductSuccess, addProductFailure } from "./productRedux"
+import { addCategoryStart, addCategorySuccess, addCategoryFailure } from "./categoryRedux"
 
 // Login user
 export const login = async (dispatch, user) => {
@@ -59,5 +60,17 @@ export const addProduct = async (product, dispatch) => {
         dispatch(addProductSuccess(res.data.data))
     } catch(err) {
         dispatch(addProductFailure())
+    }
+}
+
+// Add category
+export const addCategory = async (category, dispatch) => {
+    dispatch(addCategoryStart())
+
+    try{
+        const res = await userRequest.post('/category/create', category)
+        dispatch(addCategorySuccess(res.data.data))
+    } catch(err) {
+        dispatch(addCategoryFailure())
     }
 }
