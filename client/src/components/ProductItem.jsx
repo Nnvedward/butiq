@@ -61,7 +61,7 @@ const ProductItem = ({ product }) => {
                 <Icon>
                     <FontAwesomeIcon icon={faCartShopping} />
                 </Icon>
-                <Link to={`/product/${product._id}`}>
+                <Link to={`/product/${product._id}`} style={{ color: "inherit" }}>
                     <Icon>
                         <FontAwesomeIcon icon={faSearch} />
                     </Icon>

@@ -91,7 +91,7 @@ const Navbar = () => {
                     <Link style={{ textDecoration: "none", color: "inherit" }} to="/cart">
                         <MenuItem>
                             <FontAwesomeIcon icon={faCartShopping} />
-                            <CartIcon>{quantity}</CartIcon>
+                            {!!quantity && <CartIcon>{quantity}</CartIcon>}
                         </MenuItem>
                     </Link>
                 </Right>

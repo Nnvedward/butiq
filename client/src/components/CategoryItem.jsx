@@ -7,6 +7,10 @@ const Container = styled.div`
     margin: 3px;
     height: 70vh;
     position: relative;
+    display: flex;
+    min-width: 380px;
+    align-items: center;
+    justify-content: center;
 `
 const Image = styled.img`
     width: 100%;
