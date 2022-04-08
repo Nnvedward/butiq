@@ -12,6 +12,7 @@ import { userRequest } from "../requestMethods";
 import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { getTotals, removeProduct } from '../redux/cartRedux'
+import { createOrder } from "../redux/apiCalls";
 
 const KEY = process.env.REACT_APP_STRIPE_KEY
 
@@ -187,24 +188,34 @@ const Cart = () => {
     }, [cart, dispatch])
 
     useEffect(() => {
+        const order = {
+            user: user.uid,
+            items: [
+                {
+                    itemId: cart.products[0]._id,
+                    quantity: cart.products[0].quantity
+                }
+            ],
+            amount: cart.products[0].price
+        }
         const makeRequest = async () => {
             try {
                 const res = await userRequest.post('/checkout/payment', {
                     tokenId: stripeToken.id,
                     amount: cart.total * 100
                 })
+                createOrder(dispatch, order)
                 history.push('/success', { data: res.data })
             } catch (err) { }
         }
         stripeToken && makeRequest()
-    }, [stripeToken, cart.total, history])
+    }, [stripeToken, cart.total, history, user.uid, cart.products, dispatch])
 
 
     const handleRemove = (id) => {
         dispatch(removeProduct({ id }))
     }
 
-    console.log(cart.products)
     return (
         <Container>
             <Navbar />
