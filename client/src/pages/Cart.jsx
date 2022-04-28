@@ -189,14 +189,14 @@ const Cart = () => {
 
     useEffect(() => {
         const order = {
-            user: user.uid,
+            user: user?.uid,
             items: [
                 {
-                    itemId: cart.products[0]._id,
-                    quantity: cart.products[0].quantity
+                    itemId: cart.products[0]?._id,
+                    quantity: cart.products[0]?.quantity
                 }
             ],
-            amount: cart.products[0].price
+            amount: cart.products[0]?.price
         }
         const makeRequest = async () => {
             try {
@@ -209,7 +209,7 @@ const Cart = () => {
             } catch (err) { }
         }
         stripeToken && makeRequest()
-    }, [stripeToken, cart.total, history, user.uid, cart.products, dispatch])
+    }, [stripeToken, cart.total, history, user?.uid, cart.products, dispatch])
 
 
     const handleRemove = (id) => {

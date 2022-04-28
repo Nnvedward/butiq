@@ -19,24 +19,3 @@ export const sliderItems = [
         description: "DON'T COMPROMISE ON STYLE! GET FLAT $20 0FF FOR NEW ARRIVALS."
     }
 ]
-
-export const categories = [
-    {
-        id: 1,
-        img: "https://i.ibb.co/LnWnnXg/IMG-2285.jpg",
-        title: "POLOS",
-        category: "622238b2cf4eb8ea7faad611"
-    },
-    {
-        id: 2,
-        img: "https://i.ibb.co/jGx1j4m/IMG-2301.jpg",
-        title: "JACKETS",
-        category: "62223928cf4eb8ea7faad613"
-    },
-    {
-        id: 3,
-        img: "https://i.ibb.co/5h4j7mY/IMG-2272.jpg",
-        title: "LOUNGEWEARS",
-        category: "3"
-    }
-]
