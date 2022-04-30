@@ -7,11 +7,18 @@ const bodyParser = require("body-parser")
 
 const app = express()
 
+app.use((_req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    next()
+})
+
 app.use(cors())
 
 // Parse JSON data
 app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // Api routes
 app.use('/api', require('./src/routes'))

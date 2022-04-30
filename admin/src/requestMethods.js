@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = 'http://localhost:4000/api/'
+const API = 'https://nnv-butiq.herokuapp.com/api/'
 let TOKEN = ''
 
 if(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser) {

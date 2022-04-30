@@ -18,7 +18,7 @@ const Products = ({ category, filters, sort }) => {
     const getProducts = async () => {
       try {
         const res = await axios.get(
-          category ? `http://localhost:4000/api/item?category=${category}` : "http://localhost:4000/api/item"
+          category ? `https://nnv-butiq.herokuapp.com/api/item?category=${category}` : "https://nnv-butiq.herokuapp.com/api/item"
         )
         setProducts(res.data.data)
       } catch (e) { }
