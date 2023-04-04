@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = 'https://nnv-butiq.herokuapp.com/api/'
+const API = 'https://butiq.onrender.com/api/'
 const TOKEN = ""
 
 export const publicRequest = axios.create({
