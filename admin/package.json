@@ -47,6 +47,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ],
-    "proxy": "https://nnv-butiq.herokuapp.com"
+    "proxy": "https://butiq.onrender.com"
   }
 }

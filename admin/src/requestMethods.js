@@ -1,17 +1,20 @@
-import axios from 'axios'
+import axios from "axios";
 
-const API = 'https://nnv-butiq.herokuapp.com/api/'
-let TOKEN = ''
+const API = "https://https://butiq.onrender.com/api/";
+let TOKEN = "";
 
-if(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser) {
-    TOKEN = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.token
+if (
+	JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser
+) {
+	TOKEN = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user)
+		.currentUser.token;
 }
 
 export const publicRequest = axios.create({
-    baseURL: API
-})
+	baseURL: API,
+});
 
 export const userRequest = axios.create({
-    baseURL: API,
-    headers: { "Authorization": `Bearer ${TOKEN}` }
-})
+	baseURL: API,
+	headers: { Authorization: `Bearer ${TOKEN}` },
+});
